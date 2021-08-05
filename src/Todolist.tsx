@@ -30,7 +30,6 @@ export const Todolist = (props:propsTitle)=>{
             <h3>Todolister {props.title}</h3>
             <div>
                 <Input addInfo={props.addInfo}/>
-                <button>+</button>
             </div>
             <ul>{
                 props.info.map(f => {
