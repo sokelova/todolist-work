@@ -1,7 +1,8 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useState} from "react";
 import {FilterValuesType} from "./components/Input";
 import { Input } from './components/Input';
 import s from "./App.module.css";
+import {Button} from "./components/Button";
 
 type newInfoTab={
     id: string
@@ -23,13 +24,17 @@ export const Todolist = (props:propsTitle)=>{
 
     const onAllClickHandler = () => { props.changeFilter("all");};
     const onActiveClickHandler = () => { props.changeFilter("active");};
-    const onCompletedClickHandler = () => { props.changeFilter("completed");};
+    const onCompletedClickHandler = () => { props.changeFilter("completed");
 
+    };
+
+    let[title, setTitle] = useState('');
     return (
         <div>
             <h3>Todolister {props.title}</h3>
-            <div>
-                <Input addInfo={props.addInfo}/>
+            <div className={s.input_btn}>
+                <Input setTitle={setTitle} addInfo={props.addInfo} title={title}/>
+                <Button addInfo={props.addInfo} title={title} setTitle={setTitle}/>
             </div>
             <ul>{
                 props.info.map(f => {
@@ -39,7 +44,6 @@ export const Todolist = (props:propsTitle)=>{
                         let newIsUpValue = event.currentTarget.checked;
                         props.changeInfoStatus(f.id, newIsUpValue);
                     }
-                    // return <li key={i.id} className={i.isDone ? s.isDone_executed : ""}>
                     return <li key={f.id}>
                         <input type="checkbox" onChange={onChangeHandler} checked={f.isUp}/>
                         <span>{f.title}</span>

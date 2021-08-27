@@ -21,3 +21,6 @@
 .isDone_executed{
   opacity: 0.5;
 }
+.input_btn{
+  display: flex;
+}

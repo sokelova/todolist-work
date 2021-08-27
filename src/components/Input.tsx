@@ -3,36 +3,30 @@ import s from "../App.module.css";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
-type InputType = {
+type PropsType = {
+    title: string
+    setTitle: (title:string) => void
     addInfo: (title:string) => void
 }
-export const Input = (props: InputType) => {
-    let [title, setTitle] = useState("");
-    let [error, setError] = useState<string | null> (null);
+export const Input = (props: PropsType) => {
 
-    const addInfo = () => {
-        if(title.trim() !== ""){
-            props.addInfo(title);
-            setTitle("");
-        }else{
-            setError("Title not input");
-        }
-
-    };
+    let [error, setError] = useState('')
 
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setTitle(event.currentTarget.value);
+        props.setTitle(event.currentTarget.value);
     };
 
     const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
         setError("");
-        if (event.charCode===13) {addInfo();}
+        if (event.key==='Enter') {
+            props.addInfo(props.title)
+            props.setTitle('')
+        }
     };
     const errorClas = s.error_message;
 
     return <div>
-        <input value={title} onChange={onChangeHandler} onKeyPress={onKeyPressHandler}/>
-        <button onClick={addInfo}>+</button>
+        <input value={props.title} onChange={onChangeHandler} onKeyPress={onKeyPressHandler}/>
         <div className={errorClas}>{error}</div>
     </div>
 }

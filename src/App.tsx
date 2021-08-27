@@ -4,6 +4,12 @@ import {Todolist} from "./Todolist";
 import {FilterValuesType} from "./components/Input";
 import { v1 } from 'uuid';
 
+type TodolistType = {
+    id: string
+    title: string
+    filter: FilterValuesType
+}
+
 function App() {
 
   let [infoTab, setInfoTab] = useState (
@@ -18,8 +24,7 @@ function App() {
 
   function addInfo(title: string) {
     let infoT = { id: v1(), title: title, isUp: false };
-    let newInfoTab = [infoT, ...infoTab];
-    setInfoTab(newInfoTab);
+    setInfoTab([infoT, ...infoTab]);
   }
 
   function removeInfo(id: string) {
@@ -48,6 +53,15 @@ function App() {
       inf.isUp = isUp;
       setInfoTab([...infoTab]);
     }
+  }
+
+  const addTodoList = (title: string) => {
+      const todoListID = v1();
+      const newTodoList: TodolistType = {
+          id: todoListID,
+          title: title,
+          filter: "all"
+      }
   }
 
   return (
