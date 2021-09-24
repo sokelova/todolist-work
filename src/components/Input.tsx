@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import s from "../App.module.css";
+import {Button} from "@material-ui/core";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -33,7 +34,10 @@ export const Input = (props: InputType) => {
 
     return <div>
         <input value={title} onChange={onChangeHandler} onKeyPress={onKeyPressHandler}/>
-        <button onClick={addInfo}>+</button>
+        {/*<button onClick={addInfo}>+</button>*/}
+        <Button onClick={addInfo} variant="contained" style={{maxWidth:'30px', maxHeight:'20px', minWidth:'30px', minHeight:'20px'}}>
+            +
+        </Button>
         <div className={errorClas}>{error}</div>
     </div>
 }

@@ -5,6 +5,11 @@ import s from "./App.module.css";
 import {EditableSpan} from "./components/editableSpan/EditableSpan";
 import {AddItemForm} from "./components/addItem/AddItemForm";
 import {EditableTitle} from "./components/editableSpan/EditableTitle";
+import {Button} from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
+import {Delete} from "@material-ui/icons";
+
+
 
 export type newInfoTab={
     id: string
@@ -47,7 +52,10 @@ export const Todolist = (props:PropsType)=>{
                 {/*Todolister {props.title}*/}
                 <EditableSpan title={props.title} editMode={true} callBack={onChangeTitleTodolistHandler}/>
 
-                <button onClick={removeInfoTab}>X</button>
+                {/*<button onClick={removeInfoTab}>X</button>*/}
+                <IconButton onClick={removeInfoTab} aria-label="delete" size="small">
+                    <Delete fontSize="inherit"/>
+                </IconButton>
             </h3>
             <AddItemForm addItem={callBackHandlerForAddItemForm} />
             {/*<div>*/}
@@ -68,16 +76,24 @@ export const Todolist = (props:PropsType)=>{
                         <input type="checkbox" onChange={onChangeHandler} checked={f.isUp}/>
                         <EditableSpan title={f.title} editMode={true} callBack={onChangeTitleHandler}/>
                         {/*<EditableSpan title={f.title} callBack={(title)=>props.updateInfo(title, props.id, f.id)}/>*/}
-                        <button onClick={onClickHandler}>x</button>
+                        {/*<Button onClick={onClickHandler} variant="contained" style={{maxWidth:'30px', maxHeight:'20px', minWidth:'30px', minHeight:'20px'}}>*/}
+                        {/*    +*/}
+                        {/*</Button>*/}
+                        <IconButton onClick={onClickHandler} aria-label="delete" size="small">
+                            <Delete fontSize="inherit"/>
+                        </IconButton>
                     </li>
                 })
             }
 
             </ul>
             <div>
-                <button className={props.filter === "all" ? s.active_filter : ""} onClick={ onAllClickHandler } >All</button>
-                <button className={props.filter === "active" ? s.active_filter : ""} onClick={ onActiveClickHandler }>Active</button>
-                <button className={props.filter === "completed" ? s.active_filter : ""} onClick={ onCompletedClickHandler }>Completed</button>
+                <Button variant={props.filter === "all" ? "contained" : "outlined"} color="secondary" size="small" className={props.filter === "all" ? s.active_filter : ""} onClick={ onAllClickHandler } >All</Button>
+                <Button variant={props.filter === "active" ? "contained" : "outlined"} color="primary" size="small" className={props.filter === "active" ? s.active_filter : ""} onClick={ onActiveClickHandler }>Active</Button>
+                <Button variant={props.filter === "completed" ? "contained" : "outlined"} size="small" className={props.filter === "completed" ? s.active_filter : ""} onClick={ onCompletedClickHandler }>Completed</Button>
+                {/*<button className={props.filter === "all" ? s.active_filter : ""} onClick={ onAllClickHandler } >All</button>*/}
+                {/*<button className={props.filter === "active" ? s.active_filter : ""} onClick={ onActiveClickHandler }>Active</button>*/}
+                {/*<button className={props.filter === "completed" ? s.active_filter : ""} onClick={ onCompletedClickHandler }>Completed</button>*/}
             </div>
         </div>
     )

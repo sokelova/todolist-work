@@ -5,6 +5,7 @@ import {FilterValuesType, Input} from "./components/Input";
 import { v1 } from 'uuid';
 import {AddItemForm} from "./components/addItem/AddItemForm";
 
+
 type TodolistType = {
     id: string
     title: string
@@ -98,6 +99,7 @@ function App() {
      })
     return (
         <div className="App">
+
             <AddItemForm addItem={addTodolist}/>
             {/*<Input addInfo={addTodolist}/>*/}
             {todolists.map((tl) => {

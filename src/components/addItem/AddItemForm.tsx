@@ -1,3 +1,4 @@
+import {Button, TextField} from "@material-ui/core";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import s from "../../App.module.css";
 
@@ -8,14 +9,14 @@ type AddItemFormType = {
 export const AddItemForm = (props: AddItemFormType) => {
 
     let [title, setTitle] = useState("");
-    let [error, setError] = useState<string | null> (null);
+    let [error, setError] = useState (false);
 
     const addItem = () => {
         if(title.trim() !== ""){
             props.addItem(title);
             setTitle("");
         }else{
-            setError("Title is required");
+            setError(true);
         }
 
     };
@@ -25,19 +26,31 @@ export const AddItemForm = (props: AddItemFormType) => {
     };
 
     const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-        setError(null);
+        setError(false);
         if (event.charCode===13) {addItem();}
     };
     const errorClas = s.error_message;
     return <div>
-        <input
+        {/*<input*/}
+        {/*    value={title}*/}
+        {/*    onChange={onChangeHandler}*/}
+        {/*    onKeyPress={onKeyPressHandler}*/}
+        {/*    className={error ? errorClas : ""}*/}
+
+        {/*/>*/}
+        <TextField
+            id="standard-basic"
+            error={error}
+            label={error ? "Title is required" : "Insert your text"}
+            variant="standard"
             value={title}
             onChange={onChangeHandler}
             onKeyPress={onKeyPressHandler}
             className={error ? errorClas : ""}
-
         />
-        <button onClick={addItem}>+</button>
+        <Button onClick={addItem} variant="contained" style={{maxWidth:'30px', maxHeight:'20px', minWidth:'30px', minHeight:'20px'}}>
+            +
+        </Button>
         {error && <div className={errorClas}>{error}</div>}
     </div>
 }
