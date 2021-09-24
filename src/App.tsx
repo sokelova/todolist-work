@@ -17,7 +17,7 @@ function App() {
 
     const addTodolist = (title: string) => {
         let newTodolistId = v1();
-        setTodolists([ ...todolists, {id: newTodolistId, title: title, filter: "all"}])
+        setTodolists([ ...todolists, {id: newTodolistId, title, filter: "all"}])
         setInfoTab({
             ...infoTab,
             [newTodolistId]: []
@@ -68,6 +68,9 @@ function App() {
             setInfoTab({...infoTab});
         }
     }
+    const changeTodolist = (id: string, title: string) => {
+        setTodolists(todolists.map(m => m.id === id ? {...m, title: title} : m))
+    }
     const updateInfo = (title:string, todolistId: string, infoId: string) => {
         setInfoTab({...infoTab, [todolistId]: infoTab[todolistId].map(m => m.id === infoId ? {...m, title} : m)})
     }
@@ -95,8 +98,8 @@ function App() {
      })
     return (
         <div className="App">
-            {/*<AddItemForm addItem={addTodolist}/>*/}
-            <Input addInfo={addTodolist}/>
+            <AddItemForm addItem={addTodolist}/>
+            {/*<Input addInfo={addTodolist}/>*/}
             {todolists.map((tl) => {
 
                 let allTodolistTasks = infoTab[tl.id];
@@ -118,6 +121,7 @@ function App() {
                     addInfo={addInfo}
                     changeInfoStatus={changeStatus}
                     changeInfoTitle={changeTitle}
+                    changeTitleTodolist={changeTodolist}
                     filter={tl.filter}
                     removeTodolist={removeTodolist}
                     updateInfo={updateInfo}

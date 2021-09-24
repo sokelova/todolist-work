@@ -1,15 +1,17 @@
 import React, {ChangeEvent, useState} from "react";
 
-type EditableSpanType ={
+type EditableTitleType ={
     title: string
-    callBack:(title: string) => void
+    callBack:(title: string, id: string) => void
     editMode: boolean
+    id: string
 }
 
-export const EditableSpan = (props: EditableSpanType) => {
+export const EditableTitle = (props: EditableTitleType) => {
 
     let [editMode, setEditMode] = useState(true)
     let [title, setTitle] = useState("")
+    let [id, setId] = useState("")
 
     const activateEditMode = () =>{
         setEditMode(false)
@@ -17,9 +19,11 @@ export const EditableSpan = (props: EditableSpanType) => {
     }
     const activateViewMode = () =>{
         setEditMode(true)
-        props.callBack(title)
+        props.callBack(title, id)
     }
-    const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) =>{setTitle(e.currentTarget.value)}
+    const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) =>{
+        setTitle(e.currentTarget.value);
+    }
 
     return editMode
         ? <span onDoubleClick={activateEditMode}>{props.title}</span>

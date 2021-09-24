@@ -4,6 +4,7 @@ import { Input } from './components/Input';
 import s from "./App.module.css";
 import {EditableSpan} from "./components/editableSpan/EditableSpan";
 import {AddItemForm} from "./components/addItem/AddItemForm";
+import {EditableTitle} from "./components/editableSpan/EditableTitle";
 
 export type newInfoTab={
     id: string
@@ -21,6 +22,7 @@ type PropsType={
     addInfo: (title:string, todolistId: string) => void
     changeInfoStatus: (id:string, isUp: boolean, todolistId: string) => void
     changeInfoTitle: (id:string, newTitle: string, todolistId: string) => void
+    changeTitleTodolist: (id:string, newTitle: string) => void
     filter: string
     updateInfo: (title:string, todolistId: string, infoId: string) => void
 }
@@ -35,11 +37,16 @@ export const Todolist = (props:PropsType)=>{
     const callBackHandlerForAddItemForm = (title: string) => {
         props.addInfo(title, props.id)
     }
+    const onChangeTitleTodolistHandler = (newValue: string) => {
+        props.changeTitleTodolist(props.id, newValue);
+    }
 
     return (
         <div>
             <h3>
-                Todolister {props.title}
+                {/*Todolister {props.title}*/}
+                <EditableSpan title={props.title} editMode={true} callBack={onChangeTitleTodolistHandler}/>
+
                 <button onClick={removeInfoTab}>X</button>
             </h3>
             <AddItemForm addItem={callBackHandlerForAddItemForm} />
@@ -59,8 +66,8 @@ export const Todolist = (props:PropsType)=>{
                     }
                     return <li key={f.id}>
                         <input type="checkbox" onChange={onChangeHandler} checked={f.isUp}/>
-                        {/*<EditableSpan title={f.title} editMode={true} onChange={onChangeTitleHandler}/>*/}
-                        <EditableSpan title={f.title} callBack={(title)=>props.updateInfo(title, props.id, f.id)}/>
+                        <EditableSpan title={f.title} editMode={true} callBack={onChangeTitleHandler}/>
+                        {/*<EditableSpan title={f.title} callBack={(title)=>props.updateInfo(title, props.id, f.id)}/>*/}
                         <button onClick={onClickHandler}>x</button>
                     </li>
                 })
