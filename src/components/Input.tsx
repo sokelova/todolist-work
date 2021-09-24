@@ -11,8 +11,9 @@ export const Input = (props: InputType) => {
     let [error, setError] = useState<string | null> (null);
 
     const addInfo = () => {
-        if(title.trim() !== ""){
-            props.addInfo(title);
+        let newTitle = title.trim();
+        if(newTitle.trim() !== ""){
+            props.addInfo(newTitle);
             setTitle("");
         }else{
             setError("Title not input");

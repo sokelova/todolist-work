@@ -2,47 +2,65 @@ import React, {ChangeEvent} from "react";
 import {FilterValuesType} from "./components/Input";
 import { Input } from './components/Input';
 import s from "./App.module.css";
+import {EditableSpan} from "./components/editableSpan/EditableSpan";
+import {AddItemForm} from "./components/addItem/AddItemForm";
 
-type newInfoTab={
+export type newInfoTab={
     id: string
     title: string
     isUp: boolean
 }
 
-type propsTitle={
-    title:string
+type PropsType={
+    id: string
+    title: string
     info: Array<newInfoTab>
-    removeInfo: (infoId: string) => void
-    changeFilter: (value: FilterValuesType) => void
-    addInfo: (title: string) => void
-    changeInfoStatus: (id:string, isUp: boolean) => void
+    removeInfo: (taskId: string, todolistId: string) => void
+    removeTodolist: (todolistId: string) => void
+    changeFilter: (value: FilterValuesType, todolistId: string) => void
+    addInfo: (title:string, todolistId: string) => void
+    changeInfoStatus: (id:string, isUp: boolean, todolistId: string) => void
+    changeInfoTitle: (id:string, newTitle: string, todolistId: string) => void
     filter: string
+    updateInfo: (title:string, todolistId: string, infoId: string) => void
 }
 
-export const Todolist = (props:propsTitle)=>{
+export const Todolist = (props:PropsType)=>{
 
-    const onAllClickHandler = () => { props.changeFilter("all");};
-    const onActiveClickHandler = () => { props.changeFilter("active");};
-    const onCompletedClickHandler = () => { props.changeFilter("completed");};
+    const onAllClickHandler = () => { props.changeFilter("all", props.id);};
+    const onActiveClickHandler = () => { props.changeFilter("active", props.id);};
+    const onCompletedClickHandler = () => { props.changeFilter("completed", props.id);};
+    const removeInfoTab = () => { props.removeTodolist(props.id);}
+
+    const callBackHandlerForAddItemForm = (title: string) => {
+        props.addInfo(title, props.id)
+    }
 
     return (
         <div>
-            <h3>Todolister {props.title}</h3>
-            <div>
-                <Input addInfo={props.addInfo}/>
-            </div>
+            <h3>
+                Todolister {props.title}
+                <button onClick={removeInfoTab}>X</button>
+            </h3>
+            <AddItemForm addItem={callBackHandlerForAddItemForm} />
+            {/*<div>*/}
+            {/*    <Input addInfo={(title)=>props.addInfo(title, props.id)}/>*/}
+            {/*</div>*/}
             <ul>{
                 props.info.map(f => {
 
-                    const onClickHandler = () => {props.removeInfo(f.id)}
+                    const onClickHandler = () => {props.removeInfo(f.id, props.id)}
                     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
                         let newIsUpValue = event.currentTarget.checked;
-                        props.changeInfoStatus(f.id, newIsUpValue);
+                        props.changeInfoStatus(f.id, newIsUpValue, props.id);
                     }
-                    // return <li key={i.id} className={i.isDone ? s.isDone_executed : ""}>
+                    const onChangeTitleHandler = (newValue: string) => {
+                        props.changeInfoTitle(f.id, newValue, props.id);
+                    }
                     return <li key={f.id}>
                         <input type="checkbox" onChange={onChangeHandler} checked={f.isUp}/>
-                        <span>{f.title}</span>
+                        {/*<EditableSpan title={f.title} editMode={true} onChange={onChangeTitleHandler}/>*/}
+                        <EditableSpan title={f.title} callBack={(title)=>props.updateInfo(title, props.id, f.id)}/>
                         <button onClick={onClickHandler}>x</button>
                     </li>
                 })
